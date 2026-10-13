@@ -15,7 +15,7 @@ you are welcome to use built-in functions or the functions in sorting.py
 CSCI148: Graph Algorithms will teach you how to solve problems like this
 without needing any hints.
 '''
-
+from functools import cmp_to_key
 
 def merge_intervals(intervals):
     '''
@@ -42,6 +42,13 @@ def merge_intervals(intervals):
     '''
     def key(interval):
         return interval[0]
+    merged = []
+    for start, end in sorted(intervals, key=key):
+        if merged and start <= merged[-1][1]:
+            merged[-1][1] = max(merged[-1][1], end)
+        else:
+            merged.append([start, end])
+    return merged
 
 
 def rank_teams(votes):
@@ -80,6 +87,13 @@ def rank_teams(votes):
         # negated counts sort descending; the letter breaks ties
         return tuple(-n for n in counts[team]) + (team,)
 
+    for vote in votes:
+        for i, team in enumerate(vote):
+            if team not in counts:
+                counts[team] = [0] * len(vote)
+            counts[team][i] += 1
+    return ''.join(sorted(counts, key=key))
+
 
 def largest_number(nums):
     '''
@@ -107,6 +121,9 @@ def largest_number(nums):
         if a + b > b + a:
             return -1
         return 1 if b + a > a + b else 0
+
+    strs = sorted((str(n) for n in nums), key=cmp_to_key(cmp))
+    return ''.join(strs).lstrip('0') or '0'
 
 
 def two_city_sched_cost(costs):
@@ -136,3 +153,9 @@ def two_city_sched_cost(costs):
     '''
     def key(cost):
         return cost[0] - cost[1]
+
+    n = len(costs) // 2
+    ordered = sorted(costs, key=key)
+    return sum(c[0] for c in ordered[:n]) + sum(c[1] for c in ordered[n:])
+
+
