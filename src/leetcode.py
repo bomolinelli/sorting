@@ -17,6 +17,7 @@ without needing any hints.
 '''
 from functools import cmp_to_key
 
+
 def merge_intervals(intervals):
     '''
     LeetCode 56 -- Merge Intervals
