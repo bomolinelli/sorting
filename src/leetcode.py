@@ -158,5 +158,3 @@ def two_city_sched_cost(costs):
     n = len(costs) // 2
     ordered = sorted(costs, key=key)
     return sum(c[0] for c in ordered[:n]) + sum(c[1] for c in ordered[n:])
-
-

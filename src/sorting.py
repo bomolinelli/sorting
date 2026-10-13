@@ -405,5 +405,3 @@ def quick_sort(xs, cmp=cmp_standard, reverse=False):
                 hi = p - 1
 
     go(0, len(xs) - 1)
-
-
